@@ -16,20 +16,31 @@ class Card {
     return this.context;
   }
 
-  addClassName(className){
+  hasClassName(className){
     const nameList = this.element.className.split("") || [];
-    const classNameIndex = nameList.indexOf(className); 
-    if( classNameIndex === -1){
-      this.getElement.className += " " + className;
+    const classNameIndex = nameList.indexOf(className);
+    if(classNameIndex === -1){
+      return false;
+    }
+    return true;
+  }
+
+  toggle(){
+    if(this.hasClassName("open")){
+      this.removeClassName("open")
+    } else {
+      this.addClassName("open");
     }
   }
 
+  addClassName(className){
+    this.getElement.className += " " + className;
+  }
+
   removeClassName(className){
-    const nameList = this.getElement.className.split(" ") || [];
+    const nameList = this.element.className.split("") || [];
     const classNameIndex = nameList.indexOf(className);
-    if( classNameIndex !== -1){
-      this.element.className = nameList.splice(classNameIndex,1).join(" ");
-    }
+    this.element.className = nameList.splice(classNameIndex,1).join(" ");
   }
 }
 

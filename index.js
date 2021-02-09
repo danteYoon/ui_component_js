@@ -16,28 +16,43 @@ class Card {
     return this.context;
   }
 
-  addClassName(className){
+  hasClassName(className){
     const nameList = this.element.className.split(" ") || [];
-    const classNameIndex = nameList.indexOf(className); 
-    if( classNameIndex === -1){
-      this.getElement.className += " " + className;
+    const classNameIndex = nameList.indexOf(className);
+    if(classNameIndex === -1){
+      return false;
     }
+    return true;
+  }
+
+  toggle(){
+    if(this.hasClassName("open")){
+      this.removeClassName("open")
+    } else {
+      this.addClassName("open");
+    }
+  }
+
+  addClassName(className){
+    this.getElement.className += " " + className;
   }
 
   removeClassName(className){
     const nameList = this.element.className.split(" ") || [];
     const classNameIndex = nameList.indexOf(className);
-    if( classNameIndex !== -1){
-      nameList.splice(classNameIndex,1).join(" ");
-      this.element.className = nameList;
-    }
+    nameList.splice(classNameIndex,1)
+    this.element.className = nameList.join(" ");
   }
 }
 
 class List {
   clickedMenu = null; 
   menu = [];
-  
+  self;
+
+  constructor(self){
+    this.self = self;
+  }
   get getClickedMenu(){
     return this.clickedMenu
   }
@@ -69,12 +84,21 @@ class Popup{
     this.text = text;
   }
 
+  toggle(target){
+    if(!document.getElementById("popup")){
+      this.draw(target);
+    }
+    else {
+      this.remove();
+    }
+  }
+
   draw(target){
     const pop = document.createElement("div");
     pop.id = "popup";
     const newContent = document.createTextNode(this.getText);
     pop.appendChild(newContent);
-    target.appendChild(pop);
+    target.after(pop);
   }
 
   remove(){
@@ -90,35 +114,36 @@ function something(){
   const cardElements = document.getElementsByClassName("item");
   const list = new List(listElement);
   const popup = new Popup();
-  
+
   Array.prototype.forEach.call(cardElements, (item) => {
     const card = new Card(item);
 
     item.addEventListener("click", function(event){
-      // list 처리
-      if(list.getClickedMenu){
-        list.getClickedMenu.removeClassName("open");
+      if(card.hasClassName("open")){
+        card.removeClassName("open");
+        popup.remove();
+        list.setClickedMenu(null);
+      } else{
+        if(list.getClickedMenu){
+          list.getClickedMenu.removeClassName("open");
+        }
+        list.setClickedMenu(card);
+        card.addClassName("open");
+        popup.remove();
+        popup.setText(card.getContext);
+        popup.draw(card.getElement);
       }
-      list.setClickedMenu(card);
-      
-      // item 처리
-      card.addClassName("open");
 
-      // popup 처리
-      popup.remove();
-      popup.setText(card.getContext);
-      popup.draw(card.getElement);
     });
   });
 
+  // card 밖을 누르면 닫힘
   document.addEventListener("click", function(event){
     if(!list.self.contains(event.target)){
       list.getClickedMenu.removeClassName("open");
       list.setClickedMenu(null);
       popup.remove();
     }
-    popup.remove();
-    list.getClickedMenu
   })
 }
 

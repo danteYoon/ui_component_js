@@ -1,12 +1,16 @@
 class List {
   clickedMenu = null; 
   menu = [];
-  self;
+  self = undefined;
 
   constructor(self){
     this.self = self;
   }
   
+  get getSelf(){
+    return this.self;
+  }
+
   get getClickedMenu(){
     return this.clickedMenu
   }
