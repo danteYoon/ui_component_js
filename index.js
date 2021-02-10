@@ -1,6 +1,21 @@
-// Import stylesheets
-import './style.css';
+import "./style.css";
+import renderList from "./listRenderer";
 
-// Write Javascript code!
-const appDiv = document.getElementById('app');
-appDiv.innerHTML = `<h1>JS Starter</h1>`;
+const app = document.querySelector("#app");
+const fetchMoreTrigger = document.querySelector("#fetchMore");
+let page = 0;
+
+const loadMore = async () => {
+  const target = page ? fetchMoreTrigger : app;
+  target.classList.add("loading");
+  await renderList(page++);
+  target.classList.remove("loading");
+};
+
+const onScroll = (e) => {
+  console.log("e.target.scrollingElement: ", e.target.scrollingElement);
+  // do something (hint: e.target.scrollingElement)
+};
+
+document.addEventListener("scroll", onScroll);
+loadMore();
