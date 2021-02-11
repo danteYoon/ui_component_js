@@ -1941,16 +1941,27 @@ const loadMore = async () => {
   target.classList.remove("loading");
 };
 
+const io = new IntersectionObserver((entries, observer) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      loadMore();
+    }
+  });
+});
+const visibleFetchTrigger = document.querySelector("#fetchMoreTrigger");
+console.log("fetchMoreTrigger: ", fetchMoreTrigger);
+Promise.resolve(loadMore()).then(() => {
+  const listChildren = document.getElementById("fetchMoreTrigger").children;
+  const listLastChild = listChildren[listChildren.length - 1];
+  io.observe(visibleFetchTrigger);
+});
+
 const onScroll = e => {
   // do something (hint: e.target.scrollingElement)
   if (e.target.scrollingElement.scrollTop + e.target.scrollingElement.clientHeight >= e.target.scrollingElement.scrollHeight - 20) {
-    ++page;
     loadMore();
   }
 };
-
-document.addEventListener("scroll", onScroll);
-loadMore();
 },{"./style.css":"style.css","./listRenderer":"listRenderer.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -1979,7 +1990,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58672" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56470" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
