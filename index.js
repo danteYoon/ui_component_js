@@ -13,8 +13,11 @@ const loadMore = async () => {
 };
 
 const onScroll = (e) => {
-  console.log("e.target.scrollingElement: ", e.target.scrollingElement);
   // do something (hint: e.target.scrollingElement)
+  if(e.target.scrollingElement.scrollTop + e.target.scrollingElement.clientHeight >=  e.target.scrollingElement.scrollHeight - 20){
+    ++page;
+    loadMore();
+  }
 };
 
 document.addEventListener("scroll", onScroll);
