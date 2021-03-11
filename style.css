@@ -45,16 +45,6 @@
 }
 
 /* do something here! */
-.open {
-  position: absolute;
-  width: 200px;
-  height: 300px;
-  border: 1px solid black;
-}
-
-.open:hover::after {
+.item.open .context {
   display: block;
-  content: "close";
-  border: 1px solid black;
-
 }

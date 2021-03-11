@@ -1,9 +1,6 @@
 const fs = require("fs");
 const http = require("http");
 
-let html;
-let js;
-let css;
 
 fs.readFile("./index.html", (err,data) => {
   if(err){
