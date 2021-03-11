@@ -45,19 +45,16 @@
 }
 
 /* do something here! */
-.item {
-  position: relative;
-  z-index: 998;
-}
-
-#popup {
+.open {
   position: absolute;
-  right: 50%;
-  z-index: 999;
-  background-color: #fff;
+  width: 200px;
+  height: 300px;
   border: 1px solid black;
 }
-.wrapper {
-  position: relative;
-  z-index: 998;
+
+.open:hover::after {
+  display: block;
+  content: "close";
+  border: 1px solid black;
+
 }
