@@ -1,24 +1,18 @@
-const items = document.getElementsByClassName("item");
-const wrapper = document.getElementsByClassName("wrapper")[0];
-function clickEventListener(event) {
-  if (
-    !wrapper.contains(event.target)
-  ) {
-    [...items].forEach(item => {
-      item.classList.remove("open");
-    });
-  } else {
-    [...items].forEach(item => {
-      if(
-          item === event.target
-        ){
-         item.classList.toggle("open");
-      }else if(!item.contains(event.target)){
-        console.log("remove")
-        item.classList.remove("open")
+const details = document.querySelectorAll("details");
+
+document.addEventListener("click", (e) => {
+  console.log("e.target.nodeName: ", e.target.nodeName);
+  if(!["SUMMARY", "DETAILS"].includes(e.target.nodeName)){
+    details.forEach(detail => {
+      detail.removeAttribute("open");
+    })
+    return;
+  }
+  else {
+    details.forEach((detail) => {
+      if(detail !== e.target){
+        detail.removeAttribute("open");
       }
     })
   }
-}
-
-document.addEventListener("click", clickEventListener);
+});
