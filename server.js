@@ -36,9 +36,20 @@ http.createServer((req,res) =>{
     res.end();
     return;
    }
+  
   res.writeHeader(200, {"Content-Type": "text/html"});
-  res.write(html);
-  res.end();
+  if(req.url.indexOf("/details.html")){
+    let detailsHtml;
+    fs.readFile("./index_details.html",(err,data) => {
+      detailsHtml = data;
+      res.write(detailsHtml);
+      res.end();
+    })
+  } else {
+    res.write(html);
+    res.end();
+
+  } 
   
 }).listen(3000);
 
