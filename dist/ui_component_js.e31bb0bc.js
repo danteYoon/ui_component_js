@@ -1899,24 +1899,47 @@ var _util = require("./util");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-const listElem = document.querySelector("#list");
+// const listElem = document.querySelector("#list");
+// const renderItem = ({ id, no, text }) => {
+//   const li = document.createElement("li");
+//   li.insertAdjacentHTML(
+//     "beforeend",
+//     `
+//       <div class="no">${no}</div>
+//       <div class="content">
+//         <div class="_id">${id}</div>
+//         <div class="text">${text}</div>
+//       </div>
+//     `
+//   );
+//   return li;
+// };
+// const renderList = async page => {
+//   const list = await dummyFetcher(getList, page);
+//   const frag = document.createDocumentFragment();
+//   list.forEach(item => frag.appendChild(renderItem(item)));
+//   listElem.appendChild(frag);
+// };
+const listElement = document.getElementById("list");
 
-const renderItem = (_ref) => {
-  let {
+const renderLiElement = fetchedRes => {
+  const {
     id,
     no,
     text
-  } = _ref;
-  const li = document.createElement("li");
-  li.insertAdjacentHTML("beforeend", "\n      <div class=\"no\">".concat(no, "</div>\n      <div class=\"content\">\n        <div class=\"_id\">").concat(id, "</div>\n        <div class=\"text\">").concat(text, "</div>\n      </div>\n    "));
-  return li;
+  } = fetchedRes;
+  const liElement = document.createElement("li");
+  liElement.insertAdjacentHTML("beforeend", "\n      <div class=".concat(no, ">\n        <div>").concat(id, "</div>\n        <div>").concat(text, "</div>\n      </div>\n    "));
+  return liElement;
 };
 
 const renderList = async page => {
-  const list = await (0, _util.dummyFetcher)(_listBuilder.default, page);
-  const frag = document.createDocumentFragment();
-  list.forEach(item => frag.appendChild(renderItem(item)));
-  listElem.appendChild(frag);
+  const documentFragment = document.createDocumentFragment();
+  const fetchedList = await (0, _util.dummyFetcher)(_listBuilder.default, page);
+  fetchedList.forEach(fetchedRes => {
+    documentFragment.appendChild(renderLiElement(fetchedRes));
+  });
+  listElement.appendChild(documentFragment);
 };
 
 var _default = renderList;
@@ -1983,7 +2006,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64705" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55233" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
