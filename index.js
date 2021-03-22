@@ -1,18 +1,25 @@
-const details = document.querySelectorAll("details");
+// Import stylesheets
+import "./style.css";
+import renderList from "./listRenderer";
 
-document.addEventListener("click", (e) => {
-  console.log("e.target.nodeName: ", e.target.nodeName);
-  if(!["SUMMARY", "DETAILS"].includes(e.target.nodeName)){
-    details.forEach(detail => {
-      detail.removeAttribute("open");
-    })
-    return;
-  }
-  else {
-    details.forEach((detail) => {
-      if(detail !== e.target){
-        detail.removeAttribute("open");
-      }
-    })
+// Write Javascript code!
+const app = document.querySelector("#app");
+const fetchMoreTrigger = document.querySelector("#fetchMore");
+let page = 0;
+
+const fetchMore = async () => {
+  const target = page ? fetchMoreTrigger : app;
+  target.classList.add("loading");
+  await renderList(page++);
+  target.classList.remove("loading");
+};
+
+const fetchMoreObserver = new IntersectionObserver(([{ isIntersecting }]) => {
+  // do something
+  if(isIntersecting){
+    fetchMore(page++);
   }
 });
+fetchMoreObserver.observe(fetchMoreTrigger);
+
+fetchMore();

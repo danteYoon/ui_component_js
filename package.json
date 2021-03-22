@@ -1,16 +1,22 @@
 {
-  "name": "1-1-js",
-  "version": "0.0.0",
-  "private": true,
-  "dependencies": {},
+  "name": "q1_js",
+  "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/danteYoon/ui_component_js.git",
-  "author": "danteYoon <dante@watcha.com>",
-  "license": "MIT",
-  "devDependencies": {
-    "nodemon": "^2.0.7"
-  },
   "scripts": {
-    "dev": "nodemon ./server.js"
-  }
+    "start": "parcel index.html watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "lorem-ipsum": "^2.0.3",
+    "uuid": "^8.3.2"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4"
+  },
+  "browserslist": [
+    "since 2017-06"
+  ],
+  "description": ""
 }
