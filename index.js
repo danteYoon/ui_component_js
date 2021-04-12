@@ -1,18 +1,33 @@
-const details = document.querySelectorAll("details");
+import "./style.css";
 
-document.addEventListener("click", (e) => {
-  console.log("e.target.nodeName: ", e.target.nodeName);
-  if(!["SUMMARY", "DETAILS"].includes(e.target.nodeName)){
-    details.forEach(detail => {
-      detail.removeAttribute("open");
-    })
-    return;
-  }
-  else {
-    details.forEach((detail) => {
-      if(detail !== e.target){
-        detail.removeAttribute("open");
-      }
-    })
+const navElem = document.querySelector("#nav");
+const navItems = Array.from(navElem.children);
+const contentsElem = document.querySelector("#contents");
+const contentItems = Array.from(contentsElem.children);
+const offsetTops = contentItems.map((elem) => {
+  const [ofs, clh] = [elem.offsetTop, elem.clientHeight];
+  return [ofs - clh / 2, ofs + clh / 2];
+});
+
+window.addEventListener("scroll", (e) => {
+  const { scrollTop } = e.target.scrollingElement;
+  const targetIndex = offsetTops.findIndex(([top, bottom]) => {
+    return scrollTop >= top && scrollTop <= bottom
+  });
+  document.getElementsByClassName("on")[0].classList.remove("on");
+  navItems[targetIndex].classList.add("on");
+  console.log(contentItems[targetIndex].classList);
+});
+
+
+navElem.addEventListener("click", (e) => {
+  const targetElem = e.target;
+  if (targetElem.tagName === "BUTTON") {
+    const targetIndex = navItems.indexOf(targetElem.parentElement);
+    contentItems[targetIndex].scrollIntoView({
+      block: "start",
+      behavior: "smooth",
+    });
   }
 });
+
